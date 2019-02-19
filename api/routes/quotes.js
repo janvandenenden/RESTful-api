@@ -5,11 +5,26 @@ const mongoose = require("mongoose");
 
 router.get('/', (req, res, next) => {
   Quote.find()
+  .select("_id author quote")
   .exec()
   .then(doc => {
-    console.log(doc);
+    const response = {
+      count: doc.length,
+      quotes:doc.map(doc => {
+        return {
+          author:doc.author,
+          quote:doc.quote,
+          _id:doc._id,
+          request:{
+            type:'GET',
+            description:'follow link to go to quote',
+            url:'http://localhost:5000/quotes/' + doc._id
+          }
+        }
+      }),
+    }
     if (doc){
-      res.status(200).json(doc)
+      res.status(200).json(response)
     } else {
       res.status(404).json({message:"This is not the right URL"})
     }
@@ -30,8 +45,17 @@ router.post('/', (req, res, next) => {
   .then(result => {
     console.log(result);
     res.status(201).json({
-      message:'Handling POST requests to /quotes',
-      createdQuote: quote
+      message:'Created quote succesfully',
+      createdQuote: {
+        author:result.author,
+        quote:result.quote,
+        _id:result._id,
+        request:{
+          type:'GET',
+          description:'Get new quote',
+          url:'http://localhost:5000/quotes/' + result._id
+        }
+      }
     });
   })
   .catch(err => {
@@ -47,7 +71,16 @@ router.get('/:quoteId', (req, res, next) => {
   .then(doc => {
     console.log(doc);
     if (doc){
-      res.status(200).json(doc)
+      res.status(200).json(quote = {
+            author: doc.author,
+            quote: doc.quote,
+            _id: doc._id,
+            request:{
+              type:'GET',
+              description:'Get all quotes',
+              url:'http://localhost:5000/quotes/'
+            }
+          })
     } else {
       res.status(404).json({message:"No quote exists under that ID"})
     }
@@ -71,8 +104,13 @@ router.patch('/:quoteId', (req, res, next) => {
   )
   .exec()
   .then(result => {
-    console.log(result);
-    res.status(200).json(result);
+    res.status(200).json({
+      message:'Product updated',
+      request:{
+        type:'GET',
+        url:'http://localhost:5000/quotes/' + id
+      }
+    });
   })
   .catch(err => {
     console.log(err);
@@ -87,9 +125,17 @@ router.delete('/:quoteId', (req, res, next) => {
   })
   .exec()
   .then(doc => {
-    console.log(doc);
-    console.log("it is deleted");
-    res.status(200).json(doc)
+    res.status(200).json({
+    message:'quote was deleted',
+    author:doc.author,
+    quote:doc.quote,
+    _id:doc._id,
+    request:{
+      type:'GET',
+      message:'See remaining quotes',
+      url:'http://localhost:5000/quotes/'
+    }
+  })
   })
   .catch(err => {
     console.log(err);
