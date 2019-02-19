@@ -2,7 +2,11 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const productRoutes = require('./api/routes/quotes');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://username:'+ process.env.MONGO_ATLAS_PW + '@node-quote-db-48exy.mongodb.net/test?retryWrites=true', { useNewUrlParser: true })
+
+
 
 //all middleware so the date goes through these
 app.use(morgan('dev'));
@@ -19,10 +23,8 @@ app.use((req, res, next) => {
   }
   next();
 });
-
 //Route which should handle requests
 app.use('/quotes',productRoutes);
-
 //error messages
 app.use((req, res, next) => {
   const error = new Error('Not found');
@@ -38,4 +40,6 @@ app.use((error, req, res, next) => {
     }
   });
 });
+
+
 module.exports = app;
