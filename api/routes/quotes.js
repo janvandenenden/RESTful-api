@@ -8,8 +8,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+  const quote = {
+    author: req.body.author,
+    quote: req.body.quote,
+  };
   res.status(201).json({
-    message:'Handling POST resquests to /quotes'
+    message:'Handling POST resquests to /quotes',
+    createdQuote: quote
   });
 });
 
