@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+var timeout = require('connect-timeout')
 const productRoutes = require('./api/routes/quotes');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -9,6 +10,8 @@ mongoose.connect('mongodb+srv://username:'+ process.env.MONGO_ATLAS_PW + '@node-
 
 
 //all middleware so the date goes through these
+app.use(timeout(120000));
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -41,5 +44,9 @@ app.use((error, req, res, next) => {
   });
 });
 
+app.use(haltOnTimedout);
+function haltOnTimedout(req, res, next){
+  if (!req.timedout) next();
+}
 
 module.exports = app;
