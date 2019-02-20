@@ -56,7 +56,7 @@ router.post('/', (req, res, next) => {
           url:'http://localhost:5000/quotes/' + result._id
         }
       }
-    });
+    })
   })
   .catch(err => {
     console.log(err);

@@ -5,8 +5,9 @@ const productRoutes = require('./api/routes/quotes');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 console.log("test",process.env.MONGO_ATLAS_PW)
-mongoose.connect('mongodb+srv://username:'+ process.env.MONGO_ATLAS_PW + '@node-quote-db-48exy.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://username:'+ process.env.MONGO_ATLAS_PW + '@cluster0-48exy.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
 
+//mongodb+srv://username:<PASSWORD>@cluster0-48exy.mongodb.net/test?retryWrites=true
 
 //all middleware so the date goes through these
 app.use(morgan('dev'));
