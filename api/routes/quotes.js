@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
             url:'http://localhost:5000/quotes/' + doc._id
           }
         }
-      }),
+      })
     }
     if (doc){
       res.status(200).json(response)

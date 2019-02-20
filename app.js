@@ -4,8 +4,8 @@ const morgan = require('morgan');
 const productRoutes = require('./api/routes/quotes');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://username:'+ process.env.MONGO_ATLAS_PW + '@node-quote-db-48exy.mongodb.net/test?retryWrites=true', { useNewUrlParser: true })
-
+console.log("test",process.env.MONGO_ATLAS_PW)
+mongoose.connect('mongodb+srv://username:'+ process.env.MONGO_ATLAS_PW + '@node-quote-db-48exy.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
 
 
 //all middleware so the date goes through these
@@ -40,7 +40,5 @@ app.use((error, req, res, next) => {
     }
   });
 });
-
-
 
 module.exports = app;
