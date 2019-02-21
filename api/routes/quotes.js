@@ -93,7 +93,7 @@ router.get('/:quoteId', (req, res, next) => {
 
 
 //[{"propName":"author","value":"Rick"},{"propName":"quote","value":"Where the hell is Morty"}]
-router.patch('/:quoteId', (req, res, next) => {
+router.put('/:quoteId', (req, res, next) => {
   const id = req.params.quoteId;
   const updateOps = {};
   for (const ops of req.body){
